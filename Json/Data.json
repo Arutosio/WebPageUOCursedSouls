@@ -1,0 +1,36 @@
+{
+  "titolo": "Oro Prezioso - Compro Oro",
+  "sottotitolo": "Valutazioni gratuite e pagamenti immediati",
+  "tabs": [
+    {"id": "home", "label": "Home"},
+    {"id": "servizi", "label": "Servizi"},
+    {"id": "contatti", "label": "Contatti"},
+    {"id": "prodotti", "label": "Prodotti"}
+  ],
+  "sezioni": {
+    "home": {
+      "titolo": "Benvenuti da Oro Prezioso",
+      "contenuto": "Offriamo valutazioni gratuite e pagamenti immediati per il tuo oro usato. Massima trasparenza e professionalità."
+    },
+    "servizi": {
+      "titolo": "I Nostri Servizi",
+      "contenuto": "Acquistiamo gioielli, monete e oggetti in oro di qualsiasi caratura. Utilizziamo strumenti professionali per garantire una valutazione precisa."
+    },
+    "contatti": {
+      "titolo": "Contattaci",
+      "contenuto": "Siamo aperti dal lunedì al sabato. Passa a trovarci per una valutazione gratuita.",
+      "indirizzo": "Via del Compro Oro, 123 - 00100 Roma",
+      "telefono": "06 1234567",
+      "email": "info@oroprezioso.com",
+      "orari": "Lun-Ven: 9:00-13:00 / 15:00-19:00<br>Sab: 9:00-13:00"
+    },
+    "prodotto": {
+      "titolo": "Contattaci",
+      "contenuto": "Siamo aperti dal lunedì al sabato. Passa a trovarci per una valutazione gratuita.",
+      "indirizzo": "Via del Compro Oro, 123 - 00100 Roma",
+      "telefono": "06 1234567",
+      "email": "info@oroprezioso.com",
+      "orari": "Lun-Ven: 9:00-13:00 / 15:00-19:00<br>Sab: 9:00-13:00"
+    }
+  }
+}

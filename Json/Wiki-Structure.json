@@ -1,0 +1,114 @@
+{
+  "Skills": {
+    "items": [
+      "Anatomy",
+      "Archery",
+      "Blacksmithing",
+      "Carpentry",
+      "Cooking",
+      "Magery",
+      "Mining",
+      "Swordsmanship",
+      "Tailoring"
+    ]
+  },
+  "Classi": {
+    "items": [
+      "Arcanista",
+      "Templare",
+      "Assassino d'Ombra",
+      "Ranger",
+      "Necromante",
+      "Bardo"
+    ]
+  },
+  "Razze": {
+    "items": [
+      "Elfi Lunari",
+      "Nani Forgiatori",
+      "Mezzorchi Selvaggi",
+      "Umani",
+      "Drow"
+    ]
+  },
+  "Items": {
+    "subcategories": {
+      "Armi": {
+        "subcategories": {
+          "Swords": {
+            "items": [
+              "Longsword",
+              "Katana",
+              "Broadsword",
+              "Scimitar"
+            ]
+          },
+          "Maces": {
+            "items": [
+              "War Mace",
+              "Club",
+              "War Hammer",
+              "Maul"
+            ]
+          },
+          "Axes": {
+            "items": [
+              "Battle Axe",
+              "Double Axe",
+              "Executioner Axe"
+            ]
+          }
+        }
+      },
+      "Books": {
+        "subcategories": {
+          "SpellBook": {
+            "items": [
+              "Necromancy Spellbook",
+              "Magery Spellbook",
+              "Chivalry Spellbook"
+            ]
+          }
+        }
+      },
+      "Tool": {
+        "items": [
+          "Pickaxe",
+          "Hammer",
+          "Saw",
+          "Sewing Kit",
+          "Mortar and Pestle"
+        ]
+      },
+      "Resource": {
+        "subcategories": {
+          "Hides": {
+            "items": [
+              "Regular Leather",
+              "Spined Leather",
+              "Horned Leather",
+              "Barbed Leather"
+            ]
+          },
+          "Ore": {
+            "items": [
+              "Iron Ore",
+              "Dull Copper",
+              "Shadow Iron",
+              "Valorite"
+            ]
+          },
+          "Wood": {
+            "items": [
+              "Regular Wood",
+              "Oak",
+              "Ash",
+              "Yew",
+              "Frostwood"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
