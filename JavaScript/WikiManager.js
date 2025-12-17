@@ -1,5 +1,5 @@
 /*===============================*/
-/*       WIKI FUNCTIONALITY      */
+/*       WIKI MANAGER MODULE     */
 /*===============================*/
 
 export default class WikiManager {
@@ -19,28 +19,78 @@ export default class WikiManager {
         this.loading = null;
         this.navContent = null;
         
-        this.init();
+        this.initialized = false;
     }
     
+    /**
+     * Inizializza il WikiManager
+     */
     async init() {
-        // Wait for DOM to be ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.setup());
-        } else {
-            this.setup();
+        try {
+            // Carica l'HTML della Wiki
+            //await this.loadWikiHTML();
+            
+            // Setup elementi DOM e funzionalità
+            await this.setup();
+            
+            this.initialized = true;
+            console.log('✅ WikiManager initialized successfully');
+        } catch (error) {
+            console.error('❌ Error initializing WikiManager:', error);
         }
     }
     
+    /**
+     * Carica l'HTML della sezione Wiki
+     */
+    async loadWikiHTML() {
+        try {
+            const response = await fetch('./Views/ViewSections/Wiki.html');
+            if (!response.ok) throw new Error('Failed to load Wiki HTML');
+            
+            const html = await response.text();
+            const wikiSection = document.getElementById('sectionWiki');
+            
+            if (wikiSection) {
+                wikiSection.innerHTML = html;
+                
+                // Aspetta che il DOM sia aggiornato
+                await new Promise(resolve => setTimeout(resolve, 100));
+            } else {
+                throw new Error('Wiki section not found in DOM');
+            }
+        } catch (error) {
+            console.error('Error loading Wiki HTML:', error);
+            throw error;
+        }
+    }
+    
+    /**
+     * Setup iniziale dopo il caricamento dell'HTML
+     */
     async setup() {
         // Cache DOM elements
         this.sidebar = document.getElementById('wiki-sidebar');
+        console.log(this.sidebar) //OK
         this.toggleBtn = document.getElementById('wiki-toggle-btn');
+        console.log(this.toggleBtn) // su manin
         this.menuIcon = document.getElementById('wiki-menu-icon');
+        console.log(this.menuIcon) // su manin
         this.closeIcon = document.getElementById('wiki-close-icon');
+        console.log(this.closeIcon) // su manin
         this.pageTitle = document.getElementById('wiki-page-title');
+        console.log(this.pageTitle) // su manin
         this.content = document.getElementById('wiki-content');
+        console.log(this.content) // su manin
         this.loading = document.getElementById('wiki-loading');
+        console.log(this.loading) // su manin
         this.navContent = document.getElementById('wiki-nav-content');
+        console.log(this.navContent) //OK
+        
+        // Verifica che tutti gli elementi esistano
+        if (!this.validateDOMElements()) {
+            throw new Error('Required DOM elements not found');
+        }
         
         // Load wiki structure
         await this.loadWikiStructure();
@@ -55,19 +105,56 @@ export default class WikiManager {
         this.loadPage('home');
     }
     
+    /**
+     * Valida che tutti gli elementi DOM necessari esistano
+     */
+    validateDOMElements() {
+        const requiredElements = {
+            sidebar: this.sidebar,
+            toggleBtn: this.toggleBtn,
+            menuIcon: this.menuIcon,
+            closeIcon: this.closeIcon,
+            pageTitle: this.pageTitle,
+            content: this.content,
+            loading: this.loading,
+            navContent: this.navContent
+        };
+        
+        for (const [name, element] of Object.entries(requiredElements)) {
+            if (!element) {
+                console.error(`Missing DOM element: ${name}`);
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Carica la struttura della wiki dal JSON
+     */
     async loadWikiStructure() {
         try {
-            const response = await fetch('../Json/Wiki-Structure.json');
+            const response = await fetch('./Json/Wiki-Structure.json');
+            if (!response.ok) throw new Error('Failed to load wiki structure');
+            
             this.wikiStructure = await response.json();
+            console.log('✅ Wiki structure loaded');
         } catch (error) {
             console.error('Error loading wiki structure:', error);
+            // Fallback a struttura vuota
             this.wikiStructure = {};
         }
     }
     
+    /**
+     * Setup event listeners
+     */
     setupEventListeners() {
         // Toggle sidebar
-        this.toggleBtn.addEventListener('click', () => this.toggleSidebar());
+        if (this.toggleBtn) {
+            this.toggleBtn.addEventListener('click', () => this.toggleSidebar());
+        }
         
         // Home button
         const homeBtn = document.querySelector('.wiki-nav-home');
@@ -76,6 +163,9 @@ export default class WikiManager {
         }
     }
     
+    /**
+     * Toggle sidebar visibility
+     */
     toggleSidebar() {
         this.sidebarOpen = !this.sidebarOpen;
         
@@ -90,8 +180,11 @@ export default class WikiManager {
         }
     }
     
+    /**
+     * Render navigation menu
+     */
     renderNavigation() {
-        if (!this.wikiStructure) return;
+        if (!this.wikiStructure || !this.navContent) return;
         
         this.navContent.innerHTML = '';
         
@@ -101,6 +194,9 @@ export default class WikiManager {
         });
     }
     
+    /**
+     * Render singolo item di navigazione
+     */
     renderNavItem(name, data, path) {
         const currentPath = path ? `${path}/${name}` : name;
         const container = document.createElement('div');
@@ -141,6 +237,9 @@ export default class WikiManager {
         return container;
     }
     
+    /**
+     * Crea bottone categoria
+     */
     createCategoryButton(name, path) {
         const button = document.createElement('button');
         button.className = 'wiki-nav-item wiki-nav-category';
@@ -158,6 +257,9 @@ export default class WikiManager {
         return button;
     }
     
+    /**
+     * Crea bottone item
+     */
     createItemButton(name, path) {
         const button = document.createElement('button');
         button.className = 'wiki-nav-item';
@@ -172,12 +274,23 @@ export default class WikiManager {
         return button;
     }
     
+    /**
+     * Toggle sezione espansa/collassata
+     */
     toggleSection(path) {
         this.expandedSections[path] = !this.expandedSections[path];
         this.renderNavigation();
     }
     
+    /**
+     * Carica una pagina wiki
+     */
     async loadPage(path) {
+        if (!this.initialized) {
+            console.warn('WikiManager not initialized yet');
+            return;
+        }
+        
         this.currentPage = path;
         
         // Update title
@@ -213,6 +326,9 @@ export default class WikiManager {
         }
     }
     
+    /**
+     * Carica file markdown
+     */
     async loadMarkdownFile(path) {
         // If it's home, load default content
         if (path === 'home') {
@@ -221,17 +337,21 @@ export default class WikiManager {
         
         // Try to load the .md file
         try {
-            const response = await fetch(`./sections/Wiki/${path}.md`);
+            const response = await fetch(`./Views/Wiki/${path}.md`);
             if (!response.ok) throw new Error('File not found');
             return await response.text();
         } catch (error) {
             // Return mock content if file doesn't exist
+            console.warn(`Markdown file not found: ${path}.md, using mock content`);
             return this.getMockContent(path);
         }
     }
     
+    /**
+     * Contenuto home page
+     */
     getHomeContent() {
-        return `# Wiki di UOStrike
+        return `# Wiki di UOCS
 
 Benvenuto nella Wiki ufficiale del nostro shard Ultima Online!
 
@@ -250,9 +370,12 @@ Usa il menu laterale per esplorare le diverse sezioni. Clicca su una categoria p
 
 ## Aggiornamenti recenti
 
-La wiki viene costantemente aggiornata con nuove informazioni sul mondo di UOStrike. Torna spesso per scoprire le novità!`;
+La wiki viene costantemente aggiornata con nuove informazioni sul mondo di UOCS. Torna spesso per scoprire le novità!`;
     }
     
+    /**
+     * Mock content per pagine non trovate
+     */
     getMockContent(path) {
         const pageName = path.split('/').pop();
         const category = path.split('/')[0];
@@ -280,7 +403,7 @@ Questa è la pagina wiki per **${pageName}**. Qui troverai tutte le informazioni
 
 ## Dettagli
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Questo elemento è fondamentale per il tuo personaggio e offre vantaggi unici nel mondo di UOStrike.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Questo elemento è fondamentale per il tuo personaggio e offre vantaggi unici nel mondo di UOCS.
 
 ### Come ottenerlo
 
@@ -300,29 +423,54 @@ Informazioni extra e consigli utili per sfruttare al meglio questo elemento nel 
 - Guide correlate`;
     }
     
+    /**
+     * Render markdown content to HTML
+     */
     renderContent(markdown) {
         const lines = markdown.split('\n');
         let html = '';
         let inTable = false;
         let tableHtml = '';
         let isFirstTableRow = true;
+        let inList = false;
         
         lines.forEach((line, index) => {
             // Headers
             if (line.startsWith('# ')) {
-                html += `<h1>${line.slice(2)}</h1>`;
+                if (inList) {
+                    html += '</ul>';
+                    inList = false;
+                }
+                html += `<h1>${this.parseInlineMarkdown(line.slice(2))}</h1>`;
             } else if (line.startsWith('## ')) {
-                html += `<h2>${line.slice(3)}</h2>`;
+                if (inList) {
+                    html += '</ul>';
+                    inList = false;
+                }
+                html += `<h2>${this.parseInlineMarkdown(line.slice(3))}</h2>`;
             } else if (line.startsWith('### ')) {
-                html += `<h3>${line.slice(4)}</h3>`;
+                if (inList) {
+                    html += '</ul>';
+                    inList = false;
+                }
+                html += `<h3>${this.parseInlineMarkdown(line.slice(4))}</h3>`;
             }
             // Lists
             else if (line.startsWith('- ')) {
-                const content = line.slice(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                if (!inList) {
+                    html += '<ul>';
+                    inList = true;
+                }
+                const content = this.parseInlineMarkdown(line.slice(2));
                 html += `<li>${content}</li>`;
             }
             // Tables
             else if (line.startsWith('|')) {
+                if (inList) {
+                    html += '</ul>';
+                    inList = false;
+                }
+                
                 if (!inTable) {
                     inTable = true;
                     tableHtml = '<table>';
@@ -338,7 +486,7 @@ Informazioni extra e consigli utili per sfruttare al meglio questo elemento nel 
                 const tag = isFirstTableRow ? 'th' : 'td';
                 tableHtml += '<tr>';
                 cells.forEach(cell => {
-                    tableHtml += `<${tag}>${cell.trim()}</${tag}>`;
+                    tableHtml += `<${tag}>${this.parseInlineMarkdown(cell.trim())}</${tag}>`;
                 });
                 tableHtml += '</tr>';
                 isFirstTableRow = false;
@@ -352,17 +500,28 @@ Informazioni extra e consigli utili per sfruttare al meglio questo elemento nel 
                     isFirstTableRow = true;
                 }
                 
+                // Close list if needed
+                if (inList && line.trim() === '') {
+                    html += '</ul>';
+                    inList = false;
+                }
+                
                 // Empty lines
                 if (line.trim() === '') {
                     html += '<br>';
                 }
                 // Paragraphs
                 else if (line.trim()) {
-                    const content = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    const content = this.parseInlineMarkdown(line);
                     html += `<p>${content}</p>`;
                 }
             }
         });
+        
+        // Close list if still open
+        if (inList) {
+            html += '</ul>';
+        }
         
         // Close table if still open
         if (inTable) {
@@ -371,5 +530,39 @@ Informazioni extra e consigli utili per sfruttare al meglio questo elemento nel 
         }
         
         this.content.innerHTML = html;
+    }
+    
+    /**
+     * Parse inline markdown (bold, italic, code)
+     */
+    parseInlineMarkdown(text) {
+        return text
+            .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>') // Bold + Italic
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+            .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
+            .replace(/`(.*?)`/g, '<code>$1</code>'); // Code
+    }
+    
+    /**
+     * Distruggi il WikiManager (cleanup)
+     */
+    destroy() {
+        // Remove event listeners
+        if (this.toggleBtn) {
+            this.toggleBtn.removeEventListener('click', this.toggleSidebar);
+        }
+        
+        // Clear references
+        this.sidebar = null;
+        this.toggleBtn = null;
+        this.menuIcon = null;
+        this.closeIcon = null;
+        this.pageTitle = null;
+        this.content = null;
+        this.loading = null;
+        this.navContent = null;
+        
+        this.initialized = false;
+        console.log('🗑️ WikiManager destroyed');
     }
 }

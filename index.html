@@ -15,12 +15,6 @@
         <!-- HEADER / NAVBAR -->
         <header class="d-flex justify-content-center align-items-center">
             <nav id="navbar" class="container-fluid">
-                <ul class="d-flex justify-content-center align-items-center mb-0">
-                    <li><a href="#sectionHome" class="nav-link">Home</a></li>
-                    <li><a href="#sectionWiki" class="nav-link">Wiki</a></li>
-                    <li><a href="#sectionMedia" class="nav-link">Media</a></li>
-                    <li><a href="#sectionDownload" class="nav-link">Download</a></li>
-                </ul>
             </nav>
         </header>
 
@@ -62,9 +56,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
         
         <!-- Scripts Custom -->
-        <script type="module" src="./JavaScript/Main.js"></script>
-        
-        <!-- Caricamento dinamico Wiki -->
+        <!-- <script type="module" src="./JavaScript/Main.js"></script> -->
+        <script type="module" src="./JavaScript/main-js-updated.js"></script>
+        <!-- Caricamento dinamico Wiki
         <script>
             // Carica il contenuto HTML della Wiki
             fetch('./Views/ViewSections/Wiki.html')
@@ -73,6 +67,6 @@
                     document.getElementById('sectionWiki').innerHTML = html;
                 })
                 .catch(error => console.error('Error loading wiki section:', error));
-        </script>
+        </script> -->
     </body>
 </html>

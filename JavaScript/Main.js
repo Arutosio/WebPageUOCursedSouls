@@ -36,11 +36,6 @@ console.log(partPath);
 // 2. EVENTI AL CARICAMENTO DELLA PAGINA (DOMContentLoaded)
 // ==============================================
 document.addEventListener('DOMContentLoaded', async function() {
-
-    htmlBuilder = new HtmlBuilder("../Views");
-    jsonDataInfo = await UtilityClass.GetJsonFromRootPage("DataInfo");
-    await BuildPage();
-    InitTabs();
     
     // --- Inizializzazione Effetto Particelle ---
     if (canvas && canvas.getContext) {
@@ -50,34 +45,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     AggiugiEventi();
 });
-
-// ==============================================
-// 3. FUNZIONI DI INIZIALIZZAZIONE DEGLI EVENTI
-// ==============================================
-function AggiugiEventi() {
-    document.addEventListener("click", HandleTabClick);
-}
-
-// ==============================================
-// 4. FUNZIONI PRINCIPALI DI LOGICA
-// ==============================================
-
-// --- Logica Sezioni ---
-function showSection(sectionId) {
-    // Nascondi TUTTE le sezioni
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
-    });
-
-    // Trova e mostra la sezione desiderata
-    const targetSection = document.querySelector(sectionId);
-    if (targetSection) {
-        targetSection.classList.add('active');
-    }
-
-    // Opzionale: scrolla in cima alla pagina dopo il cambio sezione
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
 // --- Logica Particelle ---
 function resizeCanvas() {
@@ -94,112 +61,6 @@ function createParticle() {
         vx: Math.random() * -2.5 + 0.5 // Velocità Orizzontale (per la diagonale)
     };
 }
-
-
-async function BuildPage() {
-
-    jsonDataInfo = await UtilityClass.GetJsonFromRootPage("DataInfo");
-    // Add Navbar
-    let htmlNavbar = await htmlBuilder.GetStringView('Navbar.html');
-    htmlNavbar = await HtmlBuilder.RepalceKeysDataInfoOnString(htmlNavbar, jsonDataInfo);
-    IndexManager.ReplaceHtmlContent("navbar", htmlNavbar);
-    // Add Footer
-    let htmlFooter = await htmlBuilder.GetStringView('Footer.html');
-    htmlFooter = await HtmlBuilder.RepalceKeysDataInfoOnString(htmlFooter, jsonDataInfo);
-    IndexManager.ReplaceHtmlContent("footer", htmlFooter);
-    // Add HomeSection
-    let htmlSectionsHome = await htmlBuilder.GetStringView('ViewSections/Home.html');
-    htmlSectionsHome = await HtmlBuilder.RepalceKeysDataInfoOnString(htmlSectionsHome, jsonDataInfo);
-    IndexManager.ReplaceHtmlContent("sectionHome", htmlSectionsHome);
-
-    let htmlSectionsMedia = await htmlBuilder.GetStringView('ViewSections/Media.html');
-    htmlSectionsMedia = await HtmlBuilder.RepalceKeysDataInfoOnString(htmlSectionsMedia, jsonDataInfo);
-    IndexManager.ReplaceHtmlContent("sectionMedia", htmlSectionsMedia);
-
-    let htmlSectionsDownload = await htmlBuilder.GetStringView('ViewSections/Download.html');
-    htmlSectionsDownload = await HtmlBuilder.RepalceKeysDataInfoOnString(htmlSectionsDownload, jsonDataInfo);
-    IndexManager.ReplaceHtmlContent("sectionDownload", htmlSectionsDownload);
-
-    // Initialize Wiki Manager when script loads
-    wikiManager = new WikiManager();
-
-    // Add bachecaMessages
-    // let htmlBachecaMessage = await htmlBuilder.GetStringView('ViewElements/BachecaMessage.html');
-    // for (let jsonBachecaMsg of jsonDataInfo.bachecaMessages) {
-    //     let htmlBachecaMessageTmp = await HtmlBuilder.RepalceKeysDataInfoOfBachecaMessage(htmlBachecaMessage, jsonBachecaMsg);
-    //     IndexManager.InjecHtmlContentToTheEnd("bachecaMessages", htmlBachecaMessageTmp)
-    // }
-}
-
-function HandleTabClick(event) {
-    event.preventDefault();
-
-    // Assicura che il target sia sempre l'<a>
-    const target = event.target.closest("a");
-    if (!target) return;
-
-    // Se è già attivo, non fare nulla
-    if (target.classList.contains("active")) return;
-
-    const clickedTab = FindTabByElement(target);
-
-    if (!clickedTab) {
-        console.warn("Tab NON RICONOSCIUTO!", target);
-        return;
-    }
-
-    if (current) {
-        DeActivateTab(current);
-    }
-
-    ActivateTab(clickedTab);
-    current = clickedTab;
-}
-
-function InitTabs() {
-    tabs = [
-        { tabI: document.querySelector("#iHome"),     tabS: document.querySelector("#sectionHome") },
-        { tabI: document.querySelector("#iWiki"),     tabS: document.querySelector("#sectionWiki") },
-        { tabI: document.querySelector("#iMedia"),    tabS: document.querySelector("#sectionMedia") },
-        { tabI: document.querySelector("#iDownload"), tabS: document.querySelector("#sectionDownload") },
-    ];
-
-    // Disattiva tutto
-    tabs.forEach(tab => DeActivateTab(tab));
-
-    // Attiva il primo
-    current = tabs[0];
-    ActivateTab(current);
-}
-
-function ActivateTab(tab) {
-    tab.tabI.classList.add("active");
-    tab.tabS.classList.add("active");
-    console.log(tab.tabS);
-}
-
-function DeActivateTab(tab) {
-    tab.tabI.classList.remove("active");
-    tab.tabS.classList.remove("active");
-}
-
-function FindTabByElement(el) {
-    return tabs.find(tab => tab.tabI === el) || null;
-}
-
-// function FindTabByElement(el) {
-//     for (let i = 0; i < tabs.length; i++) {
-//         if (tabs[i].tabI === el) {
-//             return tabs[i];
-//         }
-//     }
-//     return null;
-// }
-
-// Imposta Google Maps
-// const address = encodeURIComponent(contattiData.indirizzo);
-// const mapIframe = document.getElementById('google-map');
-// mapIframe.src = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${address}`;
 
 //Funzione per mostrare il toast automaticamente
 function ShowToast(title, msg) {
