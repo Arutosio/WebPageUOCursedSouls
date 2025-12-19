@@ -1,7 +1,7 @@
 {
     "title": "Ultima Online Cursed Souls",
     "homeText": "",
-    "footerText": "© 2025 Ultima Online Shard — Tutti i diritti riservati.",
+    "footerText": "© 2025 Ultima Online Shard — All rights reserved. Any unauthorized reproduction is prohibited.",
     "phone": "+",
     "eMail": "",
     "Discord": "https://www.facebook.com/profile.php?id=sssss",
@@ -11,5 +11,42 @@
             "fa-icon": "fa-bullhorn",
             "bachecaMsg": "Guarda i nuovi eventi!"
         }
-    ]
+    ],
+
+    "roadmap": {
+        "items": [
+            {
+                "status": "completed",
+                "date_start": "2025-10-01",
+                "date_end": "2025-12-02",
+                "title": "Project Ideation",
+                "image_url": "../Images/Gemini_Generated_Image_gxmc7lgxmc7lgxmc.png",
+                "description": "Definition of the core game mechanics, lore development, and technical feasibility study for the Shard."
+            },
+            {
+                "status": "active",
+                "date_start": "2025-12-15",
+                "date_end": "2026-03-02",
+                "title": "Custom Map Creation",
+                "image_url": "https://example.com/hide_types.jpg",
+                "description": "Designing and building a unique world map, featuring custom dungeons, cities, and wilderness areas."
+            },
+            {
+                "status": "future",
+                "date_start": "2026-06-01",
+                "date_end": "2026-07-13",
+                "title": "New Custom Hide Types",
+                "image_url": "https://example.com/hide_types.jpg",
+                "description": "Introduction of rare and exotic leather types harvested from unique creatures to enhance the crafting system."
+            },
+            {
+                "status": "future",
+                "date_start": "2026-07-15",
+                "date_end": "2026-08-13",
+                "title": "New Hide Armor Sets",
+                "image_url": "https://example.com/hide_types.jpg",
+                "description": "Designing and implementing exclusive armor sets crafted from custom hides, offering unique bonuses and aesthetics."
+            }
+        ]
+    }
 }

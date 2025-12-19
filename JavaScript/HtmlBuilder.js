@@ -12,16 +12,90 @@ export default class HtmlBuilder {
     }
 
     // #region Section-Product
+    /**
+     * Metodo principale per la sostituzione dei dati nella stringa template.
+     */
     static async RepalceKeysDataInfoOnString(string, jsonDataInfo) {
-        string = HtmlBuilder.RepleaceAllKey(string, "title", jsonDataInfo.title);
-        string = HtmlBuilder.RepleaceAllKey(string, "footerText", jsonDataInfo.footerText);
-        string = HtmlBuilder.RepleaceAllKey(string, "address", jsonDataInfo.address);
-        string = HtmlBuilder.RepleaceAllKey(string, "phone", jsonDataInfo.phone);
-        string = HtmlBuilder.RepleaceAllKey(string, "mobilePhone", jsonDataInfo.mobilePhone);
-        string = HtmlBuilder.RepleaceAllKey(string, "eMail", jsonDataInfo.eMail);
-        string = HtmlBuilder.RepleaceAllKey(string, "facebook", jsonDataInfo.facebook);
-        string = HtmlBuilder.RepleaceAllKey(string, "instagram", jsonDataInfo.instagram);
-        string = HtmlBuilder.RepleaceAllKey(string, "whatsApp", jsonDataInfo.whatsApp);
+        let keysMap = [
+            { key: "title", value: jsonDataInfo.title },
+            { key: "footerText", value: jsonDataInfo.footerText },
+            { key: "address", value: jsonDataInfo.address },
+            { key: "phone", value: jsonDataInfo.phone },
+            { key: "mobilePhone", value: jsonDataInfo.mobilePhone },
+            { key: "eMail", value: jsonDataInfo.eMail },
+            { key: "facebook", value: jsonDataInfo.facebook },
+            { key: "instagram", value: jsonDataInfo.instagram },
+            { key: "whatsApp", value: jsonDataInfo.whatsApp }
+        ];
+
+        // 1. Processo chiavi semplici
+        string = await HtmlBuilder.ProcessSimpleKeys(string, keysMap);
+
+        // 2. Processo lista Roadmap
+        // string = await HtmlBuilder.ProcessRoadmapSection(string, jsonDataInfo);
+
+        return string;
+    }
+
+    /**
+     * Cicla le chiavi semplici ed esegue il replace se presenti.
+     */
+    static async ProcessSimpleKeys(string, keysMap) {
+        for (let i = 0; i < keysMap.length; i++) {
+            let item = keysMap[i];
+            let placeholder = ":|§." + item.key + ".§|:";
+            
+            if (string.includes(placeholder) && item.value !== undefined) {
+                string = HtmlBuilder.RepleaceAllKey(string, item.key, item.value || "");
+            }
+        }
+        return string;
+    }
+
+    static async ReplaceKeysDataInfoOfRoadmapItems(htmlTemplate, item) {
+        let output = htmlTemplate;
+
+        // Sostituzione chiavi dirette dal JSON
+        output = HtmlBuilder.RepleaceAllKey(output, "status", item.status);
+        output = HtmlBuilder.RepleaceAllKey(output, "date_start", item.date_start);
+        output = HtmlBuilder.RepleaceAllKey(output, "date_end", item.date_end);
+        output = HtmlBuilder.RepleaceAllKey(output, "title", item.title);
+        output = HtmlBuilder.RepleaceAllKey(output, "image_url", item.image_url);
+        output = HtmlBuilder.RepleaceAllKey(output, "description", item.description);
+
+        return output;
+    }
+
+    /**
+     * Gestisce specificamente la logica della sezione Roadmap.
+     */
+    static async ProcessRoadmapSection(string, jsonDataInfo, roadmap_item_html) {
+        let roadmapPlaceholder = ":|§.roadmap_items.§|:";
+        
+        if (!string.includes(roadmapPlaceholder)) {
+            return string;
+        }
+
+        let hasItems = jsonDataInfo.roadmap && 
+                    Array.isArray(jsonDataInfo.roadmap.items) && 
+                    jsonDataInfo.roadmap.items.length > 0;
+
+        if (hasItems) {
+            let roadmapHtml = "";
+            let itemTemplate = roadmap_item_html
+            let items = jsonDataInfo.roadmap.items;
+
+            for (let j = 0; j < items.length; j++) {
+                let item = items[j];
+                // Chiamata al metodo che abbiamo scritto precedentemente per i singoli item
+                roadmapHtml += await HtmlBuilder.ReplaceKeysDataInfoOfRoadmapItems(itemTemplate, item);
+            }
+
+            string = HtmlBuilder.RepleaceAllKey(string, "roadmap_items", roadmapHtml);
+        } else {
+            string = HtmlBuilder.RepleaceAllKey(string, "roadmap_items", "<p class='no-data'>No roadmap items available.</p>");
+        }
+
         return string;
     }
 

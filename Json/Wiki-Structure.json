@@ -87,7 +87,16 @@
               "Regular Leather",
               "Spined Leather",
               "Horned Leather",
-              "Barbed Leather"
+              "Barbed Leather",
+              "Troll Leather",
+              "Drake Leather",
+              "Daemon Leather",
+              "Wyrm Leather",
+              "Gargoyle Leather",
+              "Hydra Leather",
+              "Eti Leather",
+              "Lizardman Leather",
+              "Balron Leather"
             ]
           },
           "Ore": {

@@ -1,6 +1,7 @@
 /*===============================*/
 /*       WIKI MANAGER MODULE     */
 /*===============================*/
+import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 
 export default class WikiManager {
     constructor() {
@@ -106,7 +107,7 @@ export default class WikiManager {
             toggleBtn: this.toggleBtn,
             menuIcon: this.menuIcon,
             closeIcon: this.closeIcon,
-            pageTitle: this.pageTitle,
+            // pageTitle: this.pageTitle, // Questo va abilitato se si vuole HEADER di WIKI 
             content: this.content,
             loading: this.loading,
             navContent: this.navContent
@@ -286,7 +287,9 @@ export default class WikiManager {
         
         // Update title
         const pageName = path === 'home' ? 'Wiki Home' : path.split('/').pop();
-        this.pageTitle.textContent = pageName;
+
+        // Questo va abilitato se si vuole HEADER di WIKI 
+        // this.pageTitle.textContent = pageName;
         
         // Update active state in navigation
         document.querySelectorAll('.wiki-nav-item').forEach(btn => {
@@ -305,7 +308,8 @@ export default class WikiManager {
             const content = await this.loadMarkdownFile(path);
             
             // Render content
-            this.renderContent(content);
+            // this.renderContent(content);
+            this.renderContentByMarkedJS(content);
             
         } catch (error) {
             console.error('Error loading page:', error);
@@ -328,7 +332,7 @@ export default class WikiManager {
         
         // Try to load the .md file
         try {
-            const response = await fetch(`./Views/Wiki/${path}.md`);
+            const response = await fetch(`./Documents/UOCS_Wiki_md/${path}.md`);
             if (!response.ok) throw new Error('File not found');
             return await response.text();
         } catch (error) {
@@ -532,6 +536,21 @@ Informazioni extra e consigli utili per sfruttare al meglio questo elemento nel 
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
             .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
             .replace(/`(.*?)`/g, '<code>$1</code>'); // Code
+    }
+
+    /**
+     * Render markdown content to HTML
+     */
+    renderContentByMarkedJS(markdown) {
+        // Invece di fare il parsing a mano, usa la libreria Marked
+        // che hai caricato nell'index.html via CDN
+        if (typeof marked !== 'undefined') {
+            this.content.innerHTML = marked.parse(markdown);
+        } else {
+            console.error("Marked.js non è caricato!");
+            // Fallback rudimentale se la libreria fallisce
+            this.content.innerText = markdown;
+        }
     }
     
     /**

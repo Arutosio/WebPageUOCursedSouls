@@ -10,15 +10,6 @@
         </div>
         
         <nav class="wiki-nav">
-            <!-- Home Button -->
-            <button class="wiki-nav-item wiki-nav-home active" data-page="home">
-                <svg class="wiki-nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-                Home
-            </button>
-            
             <!-- Navigation will be loaded by JavaScript -->
             <div id="wiki-nav-content"></div>
         </nav>
@@ -27,7 +18,7 @@
     <!-- Main Content -->
     <main class="wiki-main flex-fill">
         <!-- Header -->
-        <header class="wiki-header">
+        <!-- <header class="wiki-header">
             <button id="wiki-toggle-btn" class="wiki-toggle-btn">
                 <svg id="wiki-menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -40,13 +31,36 @@
                 </svg>
             </button>
             <h1 id="wiki-page-title" class="wiki-page-title">Wiki Home</h1>
-        </header>
+        </header> -->
 
         <!-- Content Area -->
         <div class="wiki-content-wrapper">
             <div id="wiki-loading" class="wiki-loading hidden">
                 <div class="wiki-spinner"></div>
             </div>
+
+            <!-- Switch -->
+            <!-- <div class="wiki-switch">
+                <li class="nav-item d-flex align-items-center ms-lg-3 px-2">
+                    <div class="form-check form-switch uo-custom-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="fx-toggle">
+                        <label class="form-check-label uo-switch-label" for="fx-toggle">Wiki-Sidebar</label>
+                    </div>
+                </li>
+            </div> -->
+
+            <!-- Button to toggle sidebar -->
+            <button id="wiki-toggle-btn" class="wiki-toggle-btn">
+                <svg id="wiki-menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <svg id="wiki-close-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
             
             <article id="wiki-content" class="wiki-content">
                 <!-- Content will be loaded here -->

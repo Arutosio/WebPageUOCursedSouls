@@ -1,7 +1,40 @@
-<!-- <span id="brand-name">:|§.title.§|:</span> -->
-<ul>
-    <li><a id="iHome" class="nav-link active fs-5" href="#sectionHome">Home</a></li>
-    <li><a id="iWiki" class="nav-link fs-5" href="#sectionWiki">Wiki</a></li>
-    <li><a id="iMedia" class="nav-link fs-5" href="#sectionMedia">Media</a></li>
-    <li><a id="iDownload" class="nav-link fs-5" href="#sectionDownload">Download</a></li>
-</ul>
+<div class="container-fluid">
+    <!-- Brand/logo (opzionale) -->
+    <img src="../Images/favicon.ico" alt="Bootstrap" width="30" height="24">
+    <a class="navbar-brand d-lg-none" href="#">
+        <span style="color: var(--uo-text-accent); font-family: 'UO-Font';">UO Cursed Souls</span>
+    </a>
+
+    <!-- Bottone hamburger per mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- Icona personalizzata con i tuoi colori -->
+        <span class="navbar-toggler-icon" style="
+            background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 30 30%22%3E%3Cpath stroke=%22%23d4b06b%22 stroke-linecap=%22round%22 stroke-miterlimit=%2210%22 stroke-width=%222%22 d=%22M4 7h22M4 15h22M4 23h22%22/%3E%3C/svg%3E');
+        "></span>
+    </button>
+    
+    <!-- Contenuto della navbar -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a id="iHome" class="nav-link fs-5" href="#sectionHome">Home</a>
+            </li>
+            <li class="nav-item">
+                <a id="iWiki" class="nav-link fs-5" href="#sectionWiki">Wiki</a>
+            </li>
+            <li class="nav-item">
+                <a id="iMedia" class="nav-link fs-5" href="#sectionMedia">Media</a>
+            </li>
+            <li class="nav-item">
+                <a id="iContact" class="nav-link fs-5" href="#sectionContact">Contact</a>
+            </li>
+            <li class="nav-item">
+                <a id="iDownload" class="nav-link fs-5" href="#sectionDownload">Download</a>
+            </li>
+            <li class="nav-item">
+                <a id="iStatus" class="nav-link fs-5" href="#sectionStatus">Status</a>  
+            </li>
+        </ul>
+    </div>
+</div>

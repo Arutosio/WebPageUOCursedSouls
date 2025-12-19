@@ -1,11 +1,42 @@
 /*===============================*/
 /*  FONT CUSTOM ULTIMA ONLINE   */
 /*===============================*/
+/* 1. Definizione Font */
 @font-face {
     font-family: "UO-Font";
     src: url("../Fonts/uo-classic_v0.2.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
+    font-display: swap; /* Aiuta il caricamento */
+}
+
+/* 2. Forzatura Globale Form */
+.uo-input, 
+input, 
+textarea, 
+select, 
+option,
+.badge-status,
+.email-title,
+.contact-title,
+.btn-uo-primary {
+    font-family: "UO-Font", "Georgia", serif !important; /* Georgia come backup se il font fallisce */
+    text-transform: uppercase; /* I font UO rendono meglio in maiuscolo */
+    letter-spacing: 1px;
+}
+
+/* 3. Colore Ciano per il testo scritto dall'utente */
+input.uo-input, 
+textarea.uo-input, 
+select.uo-input {
+    color: #00acc1 !important;
+    font-size: 1.2rem !important; /* I font UO sono spesso molto piccoli, alziamo la dimensione */
+}
+
+/* Placeholder (il testo grigio di suggerimento) */
+.uo-input::placeholder {
+    color: rgba(212, 176, 107, 0.4) !important;
+    font-family: "UO-Font", serif !important;
 }
 
 /*===============================*/
@@ -31,6 +62,9 @@
     --uo-shadow-box: 0 0 15px #000;
     --uo-glow: 0 0 10px #c7a96b;
     --uo-glow-light: 0 0 5px #c7a96b;
+
+    --navbar-height-desktop: 70px;
+    --navbar-height-mobile: 60px;
 }
 
 /*===============================*/
@@ -58,39 +92,171 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 70px;
     background: var(--uo-bg-overlay);
     backdrop-filter: blur(4px);
     z-index: 1030;
     border-bottom: 1px solid var(--uo-border);
     box-shadow: var(--uo-shadow-box);
+
+    height: auto;
+    min-height: 60px;
 }
 
-nav ul {
-    list-style: none;
+/* Navbar Bootstrap Override */
+#navbar.navbar {
+    padding: 0.5rem 0;
+    height: 70px;
+}
+
+/* Container fluid override */
+#navbar .container-fluid {
+    padding: 0 2rem;
+}
+
+/* Toggle button styles */
+#navbar .navbar-toggler {
+    border: 1px solid var(--uo-border);
+    padding: 0.25rem 0.5rem;
+    background: rgba(20, 10, 5, 0.7);
+    transition: all 0.3s ease;
+}
+
+#navbar .navbar-toggler:hover {
+    border-color: var(--uo-border-hover);
+    background: rgba(212, 176, 107, 0.1);
+}
+
+#navbar .navbar-toggler:focus {
+    box-shadow: var(--uo-glow-light);
+    outline: none;
+}
+
+/* Navbar brand (mobile) */
+#navbar .navbar-brand {
+    color: var(--uo-text-accent) !important;
+    font-family: "UO-Font", Georgia, serif;
+    font-size: 1.5rem;
+    text-shadow: var(--uo-shadow);
+}
+
+/* Navbar collapse menu */
+#navbar .navbar-collapse {
+    /* background: var(--uo-bg-overlay); */
+    /* backdrop-filter: blur(4px); */
+}
+
+/* Nav items */
+#navbar .navbar-nav {
     display: flex;
-    gap: 2.5rem;
+    gap: 1.5rem;
     padding: 0;
     margin: 0;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
 }
 
-nav ul li a {
-    color: var(--uo-text-primary);
+#navbar .nav-item {
+    list-style: none;
+}
+
+/* Nav links */
+#navbar .nav-link {
+    color: var(--uo-text-primary) !important;
     text-decoration: none;
     font-size: 1.2rem;
     text-shadow: var(--uo-shadow);
     transition: all 0.3s ease;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem !important;
     border-radius: 5px;
+    font-family: "UO-Font", Georgia, serif !important;
+    position: relative;
+    display: block;
+    text-align: center;
 }
 
-nav ul li a:hover {
-    color: var(--uo-text-accent);
-    text-shadow: var(--uo-glow);
-    background: rgba(212, 176, 107, 0.1);
+#navbar .nav-link:hover,
+#navbar .nav-link:focus {
+    color: var(--uo-text-accent) !important;
+    text-shadow: var(--uo-glow) !important;
+    background: rgba(212, 176, 107, 0.1) !important;
+}
+
+#navbar .nav-link.active {
+    color: var(--uo-text-accent) !important;
+    text-shadow: var(--uo-glow) !important;
+    background: rgba(212, 176, 107, 0.15) !important;
+}
+
+/* Mobile specific styles */
+@media (max-width: 991.98px) {
+    #navbar.navbar {
+        height: auto;
+        min-height: 60px;
+    }
+    
+    #navbar .container-fluid {
+        padding: 0 1rem;
+    }
+    
+    #navbar .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--uo-bg-overlay);
+        border-top: 1px solid var(--uo-border);
+        border-bottom: 1px solid var(--uo-border);
+        box-shadow: var(--uo-shadow-box);
+        padding: 1rem;
+        backdrop-filter: blur(10px);
+    }
+    
+    #navbar .navbar-nav {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    #navbar .nav-link {
+        padding: 0.75rem 1rem !important;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        border: 1px solid transparent;
+    }
+    
+    #navbar .nav-link:hover {
+        border-color: var(--uo-border);
+    }
+}
+
+/* Desktop specific styles */
+@media (min-width: 992px) {
+    #navbar .navbar-collapse {
+        display: flex !important;
+        justify-content: center;
+    }
+    
+    #navbar .navbar-nav {
+        gap: 2.5rem;
+    }
+    
+    #navbar .navbar-brand {
+        display: none;
+    }
+}
+
+/* Aggiusta il padding delle sezioni per la navbar fixed */
+.section {
+    padding-top: 80px !important; /* Spazio per la navbar fixed */
+    height: auto !important;
+}
+
+@media (max-width: 991.98px) {
+    .section {
+        padding-top: 60px !important;
+    }
+}
+
+/* Smooth scroll per i link di navigazione */
+html {
+    scroll-behavior: smooth;
 }
 
 /*===============================*/
@@ -98,7 +264,10 @@ nav ul li a:hover {
 /*===============================*/
 .section {
     min-height: 100vh;
-    padding: 120px 20px 60px;
+    /* padding: 120px 20px 60px; */
+    padding-top: var(--navbar-height-mobile);
+
+    padding: 80px 15px 40px;
     text-align: center;
     
     /* Transizioni */
@@ -230,6 +399,257 @@ canvas#fx {
     pointer-events: none;
     z-index: 1;
 }
+/*=============================================
+=            SECTION: CONTACTS & STAFF        =
+=============================================*/
+
+@keyframes pulseVacant {
+    0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+}
+
+.contact-card-mini {
+    background: var(--uo-bg-overlay);
+    border: 1px solid var(--uo-border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    text-decoration: none !important;
+}
+
+.contact-card-mini:hover {
+    border-color: var(--uo-text-accent);
+    transform: translateY(-2px);
+    background: rgba(212, 176, 107, 0.05) !important;
+}
+
+.staff-box-large {
+    background: var(--uo-bg-overlay);
+    border: 2px double var(--uo-border);
+    border-radius: 4px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+}
+
+.staff-header-large {
+    font-size: 1.1rem;
+    color: var(--uo-text-accent);
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    text-align: center;
+    border-bottom: 1px solid var(--uo-border);
+    padding-bottom: 8px;
+}
+
+.staff-entry-large {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(212, 176, 107, 0.05);
+    font-size: 0.95rem;
+}
+
+.staff-entry-large b { color: var(--uo-text-primary); }
+
+/* Badge di Stato */
+.badge-status {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 1px solid transparent;
+}
+
+.badge-status.online {
+    color: #6fa36f;
+    border-color: #6fa36f;
+    background: rgba(111, 163, 111, 0.1);
+}
+
+.badge-status.away {
+    color: #c9a44c;
+    border-color: #c9a44c;
+    background: rgba(201, 164, 76, 0.1);
+}
+
+.badge-status.offline {
+    color: #7a2f2f;
+    border-color: #7a2f2f;
+    opacity: 0.6;
+}
+
+/* NUOVO STATO: VACANT / HIRING */
+.badge-status.vacant {
+    color: #007bff;
+    border-color: #007bff;
+    background: rgba(0, 123, 255, 0.1);
+    animation: pulseVacant 2s infinite;
+}
+
+/* .border-uo-dim { border-color: rgba(212, 176, 107, 0.2) !important; }
+.border-uo { border-color: var(--uo-border) !important; } */
+
+@media (max-width: 767.98px) {
+    .staff-entry-large { font-size: 0.85rem; }
+    .border-end { border: none !important; }
+}
+/*=============================================
+=            SECTION: STATUS & ROADMAP       =
+=============================================*/
+/* --- ROADMAP "CORDA" --- */
+
+.roadmap-container {
+    position: relative;
+    max-width: 600px;
+    margin: 40px auto; /* Margine per distanziarla dallo status */
+    padding-left: 40px;
+}
+
+/* La corda fisica */
+.roadmap-rope {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--uo-border);
+    box-shadow: var(--uo-shadow);
+}
+
+.roadmap-item {
+    position: relative;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+/* Il nodo sulla corda */
+.roadmap-node {
+    position: absolute;
+    left: -28px; /* Allineato alla corda */
+    top: 5px;
+    width: 18px;
+    height: 18px;
+    background: var(--uo-bg-secondary);
+    border: 2px solid var(--uo-border);
+    border-radius: 50%;
+    z-index: 2;
+}
+
+/* Nodo Completato */
+.roadmap-item.completed .roadmap-node {
+    background: #0fb303;
+    box-shadow: 0 0 8px #1b551b;
+}
+
+/* Nodo Attivo */
+.roadmap-item.active .roadmap-node {
+    background: var(--uo-text-accent);
+    box-shadow: var(--uo-glow);
+    border-color: #fff;
+}
+
+.roadmap-content {
+    background: var(--uo-bg-overlay);
+    border: 1px solid var(--uo-border);
+    padding: 12px 20px;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
+
+.roadmap-content:hover {
+    border-color: var(--uo-text-accent);
+}
+
+.roadmap-content h3 {
+    font-size: 1.2rem;
+    color: var(--uo-text-accent);
+    margin: 0;
+}
+
+.roadmap-content .date {
+    font-size: 0.8rem;
+    color: var(--uo-text-secondary);
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Contenitore immagine */
+.roadmap-image {
+    width: 100%;            /* Prende tutta la larghezza del roadmap-content */
+    margin-bottom: 15px;    /* Spazio tra immagine e titolo */
+    border-radius: 8px;     /* Opzionale: arrotonda gli angoli */
+    overflow: hidden;       /* Taglia eventuali bordi dell'immagine fuori raggio */
+    border: 1px solid var(--uo-border); /* Opzionale: bordo a tema */
+}
+
+/* Immagine adattiva */
+.roadmap-image img {
+    width: 100%;            /* Forza l'immagine alla larghezza del contenitore */
+    height: auto;           /* Mantiene le proporzioni originali */
+    display: block;         /* Rimuove spazi vuoti sotto l'immagine */
+    object-fit: cover;      /* Assicura che riempia bene l'area se dai un'altezza fissa */
+    transition: transform 0.3s ease; /* Effetto per l'hover */
+}
+
+/* Effetto al passaggio del mouse sull'item */
+.roadmap-item:hover .roadmap-image img {
+    transform: scale(1.05); /* Leggero zoom quando passi sopra l'item */
+}
+
+/* Contenitore Principale */
+.roadmap-item.roadmap-image-inside {
+    position: relative;
+    overflow: hidden;
+    min-height: 200px; /* Altezza minima per dare respiro all'immagine */
+    display: flex;
+    align-items: flex-end; /* Spinge il testo verso il basso */
+    border: 1px solid var(--uo-border);
+    background-color: #000;
+}
+
+/* Lo sfondo dell'immagine */
+.roadmap-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease, filter 0.5s ease;
+    z-index: 1;
+    filter: brightness(0.7) grayscale(0.2); /* Immagine più scura per far risaltare il testo */
+}
+
+/* Overlay sfumato per leggere meglio il testo */
+.roadmap-item.roadmap-image-inside::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    z-index: 2;
+}
+
+/* Contenuto del testo */
+.roadmap-item.roadmap-image-inside .roadmap-content {
+    position: relative;
+    z-index: 3; /* Sopra l'immagine e l'overlay */
+    padding: 20px;
+    width: 100%;
+}
+
+/* Effetto Hover */
+.roadmap-item.roadmap-image-inside:hover .roadmap-bg-image {
+    transform: scale(1.05);
+    filter: brightness(0.9) grayscale(0); /* Si colora e si schiarisce leggermente al passaggio */
+}
 
 /*===============================*/
 /*       WIKI SECTION            */
@@ -245,11 +665,13 @@ canvas#fx {
 #sectionWiki.section {
     padding: 0;
     text-align: left;
+    padding-top: 30px !important;
 }
 
 #sectionWiki.section.active {
     position: relative;
     min-height: 100vh;
+    padding: 0;
 }
 
 /* Sidebar Wiki */
@@ -264,8 +686,8 @@ canvas#fx {
     flex-direction: column;
     box-shadow: var(--uo-shadow-box);
     position: sticky;
-    top: 70px;
-    height: calc(100vh - 70px);
+    top: 60px;
+    height: calc(100vh - 60px);
 }
 
 .wiki-sidebar.collapsed {
@@ -412,16 +834,25 @@ canvas#fx {
 }
 
 .wiki-toggle-btn {
-    padding: 0.5rem 1rem;
-    background: transparent;
+    position: sticky;
+    top: 16px;
+    float: right;
+
+    padding: 0.5rem 0.75rem;
+    background: rgba(0, 0, 0, 0.65);
     border: 1px solid var(--uo-border);
-    border-radius: 5px;
+    border-radius: 6px;
+
     color: var(--uo-text-accent);
     cursor: pointer;
-    transition: all 0.3s ease;
+
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    z-index: 50;
     text-shadow: var(--uo-shadow);
+    transition: all 0.3s ease;
 }
 
 .wiki-toggle-btn:hover {
@@ -442,6 +873,7 @@ canvas#fx {
     flex: 1;
     overflow-y: auto;
     padding: 2.5rem 1.25rem;
+    position: relative; /* riferimento per lo sticky */
 }
 
 /* Loading Spinner */
@@ -607,8 +1039,8 @@ canvas#fx {
 /*===============================*/
 /*       RESPONSIVE              */
 /*===============================*/
+/* Header responsive */
 @media (max-width: 768px) {
-    /* Header responsive */
     header {
         height: auto;
         min-height: 60px;
@@ -626,7 +1058,8 @@ canvas#fx {
     
     /* Sections responsive */
     .section {
-        padding: 80px 15px 40px;
+        /* padding: 60px 15px 40px; */
+        padding-top: var(--navbar-height-mobile);
     }
     
     h1.section-title {
@@ -641,10 +1074,11 @@ canvas#fx {
     .wiki-sidebar {
         position: fixed;
         left: -280px;
-        top: 60px;
+        /* top: 60px; */
         height: calc(100vh - 60px);
         z-index: 1020;
         transition: left 0.3s ease;
+        top: var(--navbar-height-mobile);
     }
     
     .wiki-sidebar:not(.collapsed) {
@@ -708,4 +1142,291 @@ canvas#fx {
     .corner-gif-right {
         display: none;
     }
+}
+
+/*===============================*/
+/* UO CUSTOM BOOTSTRAP SWITCH  */
+/*===============================*/
+
+/* Contenitore e Label */
+.uo-custom-switch {
+    padding-left: 2.5em; /* Spazio per lo switch */
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.uo-switch-label {
+    color: var(--uo-text-accent);
+    font-family: "UO-Font", Georgia, serif;
+    font-size: 1.1rem;
+    text-shadow: var(--uo-shadow);
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Lo switch (il checkbox) */
+.uo-custom-switch .form-check-input {
+    width: 2.5em;
+    height: 1.25em;
+    background-color: var(--uo-bg-secondary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23e3d7b6'/%3e%3c/svg%3e"); /* Pallino color var(--uo-text-primary) */
+    border: 1px solid var(--uo-border);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+/* Stato quando è ATTIVO (Checked) */
+.uo-custom-switch .form-check-input:checked {
+    background-color: rgba(212, 176, 107, 0.4); /* Sfondo dorato trasparente */
+    border-color: var(--uo-text-accent);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23d4b06b'/%3e%3c/svg%3e"); /* /* Pallino color var(--uo-text-accent) */
+}
+
+/* Rimuoviamo l'alone blu di default di Bootstrap e mettiamo quello UO */
+.uo-custom-switch .form-check-input:focus {
+    border-color: var(--uo-border-hover);
+    outline: 0;
+    box-shadow: var(--uo-glow-light);
+}
+
+/* Effetto al passaggio del mouse */
+.uo-custom-switch .form-check-input:hover {
+    border-color: var(--uo-text-accent);
+}
+
+
+/* =============================== */
+/*          UOCS TOAST             */
+/* =============================== */
+
+.toast {
+    max-width: 350px;
+    font-family: inherit; /* usa ESATTAMENTE la font del sito */
+    font-size: 0.95rem;
+    color: var(--uo-text, #e0d6b5);
+
+    background-color: rgba(15, 12, 8, 0.95);
+    border: 1px solid var(--uo-border, #6e5a2b);
+    border-radius: 4px;
+
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+}
+
+/* Header */
+.toast-header {
+    padding: 0.4rem 0.6rem;
+    background-color: rgba(25, 20, 12, 0.95);
+
+    color: var(--uo-title, #d8c27a);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+
+    border-bottom: 1px solid var(--uo-border, #6e5a2b);
+}
+
+/* Titolo */
+.toast-header strong {
+    font-weight: normal;
+}
+
+/* Bottone chiudi */
+.toast-header .btn-close {
+    filter: invert(1);
+    opacity: 0.6;
+}
+
+.toast-header .btn-close:hover {
+    opacity: 1;
+}
+
+/* Corpo */
+.toast-body {
+    padding: 0.6rem;
+    line-height: 1.35;
+}
+
+/* Varianti leggere (solo bordo) */
+.toast-success {
+    border-left: 3px solid #6fa36f;
+}
+
+.toast-warning {
+    border-left: 3px solid #c9a44c;
+}
+
+.toast-error {
+    border-left: 3px solid #b25a5a;
+}
+
+/*=============================================
+=            MASTER FORM STYLES (UO FONT)    =
+=============================================*/
+
+.uo-input, 
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+textarea, 
+select,
+button.btn-uo-primary {
+    /* Forzatura Font Ultima Online */
+    font-family: "UO-Font", serif !important;
+    letter-spacing: 1px;
+    
+    background: rgba(10, 10, 10, 0.9) !important;
+    border: 1px solid rgba(212, 176, 107, 0.3) !important;
+    border-radius: 0px !important; /* Bordi squadrati tipici di UO */
+    padding: 8px 12px !important;
+    font-size: 1.1rem !important; /* Aumentato leggermente perché i font UO sono spesso piccoli */
+    transition: all 0.3s ease !important;
+    
+    /* Testo Utente: Ciano scuro/desaturato */
+    color: #00acc1 !important; 
+}
+
+/* Colore del placeholder (testo suggerito) */
+.uo-input::placeholder {
+    font-family: "UO-Font", serif !important;
+    color: rgba(212, 176, 107, 0.4) !important;
+    font-style: normal !important;
+}
+
+/* Titoli dei Form e Label */
+.email-title, .staff-header-large {
+    font-family: "UO-Font", serif !important;
+    color: var(--uo-text-accent);
+}
+
+/* Effetto Focus */
+.uo-input:focus {
+    border-color: var(--uo-text-accent) !important;
+    box-shadow: 0 0 10px rgba(212, 176, 107, 0.2) !important;
+    background: rgba(20, 20, 20, 1) !important;
+    outline: none !important;
+}
+
+/* Select: forziamo il font anche nelle opzioni */
+select.uo-input option {
+    font-family: "UO-Font", serif !important;
+    background: #1a1a1a;
+    color: #00c8ff;
+}
+
+/* Textarea: altezza controllata per evitare scroll */
+textarea.uo-input {
+    min-height: 70px;
+    line-height: 1.2;
+    resize: none;
+}
+
+/*=============================================
+=            UO ANIMATIONS (Keyframes)        =
+=============================================*/
+
+/* Pulsazione standard (Luce e Opacità) */
+@keyframes uo-anim-glow {
+    0%, 100% { opacity: 0.6; text-shadow: 0 0 5px currentColor; }
+    50% { opacity: 1; text-shadow: 0 0 20px currentColor, 0 0 30px currentColor; }
+}
+
+/* Pulsazione Scalata (Per icone o piccoli indicatori) */
+@keyframes uo-anim-pulse-scale {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Bagliore Magico (Specifico per il Ciano) */
+@keyframes uo-anim-magic {
+    from { text-shadow: 0 0 10px #00acc1, 0 0 20px #00acc1; }
+    to { text-shadow: 0 0 15px #00acc1, 0 0 30px #00acc1, 0 0 40px #00acc1; }
+}
+
+/* Bordo Fiammeggiante Dorato */
+@keyframes uo-anim-border {
+    0% { border-color: rgba(212, 176, 107, 0.3); box-shadow: 0 0 5px rgba(212, 176, 107, 0.2); }
+    100% { border-color: rgba(212, 176, 107, 1); box-shadow: 0 0 15px rgba(212, 176, 107, 0.5); }
+}
+
+/* Rotazione */
+@keyframes uo-anim-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Lampeggio Allerta */
+@keyframes uo-anim-alert {
+    0% { visibility: visible; }
+    50% { visibility: hidden; }
+}
+
+/*=============================================
+=            UO EFFECTS (Classes)             =
+=============================================*/
+
+/* Status Pulse: Perfetto per ONLINE/OFFLINE */
+.uo-fx-status-glow {
+    font-family: "UO-Font", serif !important;
+    animation: uo-anim-glow 3s ease-in-out infinite;
+    display: inline-block;
+    letter-spacing: 2px;
+}
+
+/* Indicator Pulse: Per piccoli pallini o icone accanto ai nomi */
+.uo-fx-indicator-scale {
+    animation: uo-anim-pulse-scale 2s infinite;
+    display: inline-block;
+}
+
+/* Testo Magico: Bagliore Ciano costante */
+.uo-fx-cyan-magic {
+    color: #00acc1 !important;
+    font-family: "UO-Font", serif !important;
+    animation: uo-anim-magic 2s ease-in-out infinite alternate;
+}
+
+/* Box Dorato: Per dare importanza a un contenitore */
+.uo-fx-gold-container {
+    border: 1px solid var(--uo-border);
+    background: rgba(0, 0, 0, 0.8);
+    animation: uo-anim-border 3s infinite alternate;
+}
+
+/* Pergamena Oscura: Sfondo sfumato e bordo doppio */
+.uo-fx-dark-scroll {
+    background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+    border: 2px double var(--uo-border);
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
+}
+
+/* Button Hover: Ingrandimento e luminosità */
+.uo-fx-btn-hover {
+    transition: all 0.3s ease;
+    font-family: "UO-Font", serif !important;
+    cursor: pointer;
+}
+.uo-fx-btn-hover:hover {
+    transform: scale(1.05);
+    letter-spacing: 3px;
+    color: var(--uo-text-accent) !important;
+    filter: brightness(1.3);
+}
+
+/* Ghost Hover: Sdoppiamento testo (Glitch magico) */
+.uo-fx-ghost-hover:hover {
+    text-shadow: 2px 2px 0px rgba(255,0,0,0.5), -2px -2px 0px rgba(0,255,255,0.5);
+    transition: all 0.2s;
+}
+
+/* Rotazione Lenta: Per ingranaggi, bussole o icone sole */
+.uo-fx-spin {
+    animation: uo-anim-spin 10s linear infinite;
+    display: inline-block;
+}
+
+/* Alert: Lampeggio rosso rapido */
+.uo-fx-alert-blink {
+    color: #ff0000 !important;
+    animation: uo-anim-alert 1s steps(2) infinite;
 }
